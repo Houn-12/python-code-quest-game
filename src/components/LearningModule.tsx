@@ -3,42 +3,53 @@ import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGame } from '@/contexts/GameContext';
-import { pythonModules } from '@/data/modules';
+import { pythonTopics } from '@/data/topics';
 import { Check, ArrowRight } from 'lucide-react';
 
 const LearningModule: React.FC = () => {
-  const { currentModule, setCurrentModule, setScreen, currentUser } = useGame();
+  const { currentTopic, setScreen, currentUser } = useGame();
   const [activeTab, setActiveTab] = useState<'content' | 'examples'>('content');
   const [currentExample, setCurrentExample] = useState(0);
   
-  const module = pythonModules[currentModule];
+  // Find the topic based on currentTopic ID
+  const topic = pythonTopics.find(t => t.id === currentTopic);
   
-  const handleNextModule = () => {
-    if (currentModule < pythonModules.length - 1) {
-      setCurrentModule(currentModule + 1);
+  // Safety check to prevent undefined access
+  if (!topic) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-2xl font-bold">Topic not found</h1>
+        <Button onClick={() => setScreen('topics')} className="mt-4">
+          Back to Topics
+        </Button>
+      </div>
+    );
+  }
+  
+  const handleNextTopic = () => {
+    const currentIndex = pythonTopics.findIndex(t => t.id === topic.id);
+    if (currentIndex < pythonTopics.length - 1) {
+      const nextTopic = pythonTopics[currentIndex + 1];
+      // Update to use setCurrentTopic instead of setCurrentModule
+      if (nextTopic) {
+        setCurrentTopic(nextTopic.id);
+      }
     }
   };
   
-  const handlePreviousModule = () => {
-    if (currentModule > 0) {
-      setCurrentModule(currentModule - 1);
+  const handlePreviousTopic = () => {
+    const currentIndex = pythonTopics.findIndex(t => t.id === topic.id);
+    if (currentIndex > 0) {
+      const prevTopic = pythonTopics[currentIndex - 1];
+      // Update to use setCurrentTopic instead of setCurrentModule
+      if (prevTopic) {
+        setCurrentTopic(prevTopic.id);
+      }
     }
   };
   
   const handleStartChallenge = () => {
     setScreen('challenge');
-  };
-  
-  const handleNextExample = () => {
-    if (currentExample < module.examples.length - 1) {
-      setCurrentExample(currentExample + 1);
-    }
-  };
-  
-  const handlePreviousExample = () => {
-    if (currentExample > 0) {
-      setCurrentExample(currentExample - 1);
-    }
   };
 
   const formatPythonCode = (code: string) => {
@@ -52,13 +63,22 @@ const LearningModule: React.FC = () => {
       .replace(/(\+|\-|\*|\/|\%|\=|\=\=|\!\=|\&lt;|\&gt;|\&lt;\=|\&gt;\=)/g, '<span class="code-operator">$1</span>');
   };
 
-  const isModuleCompleted = currentUser?.completedChallenges?.includes(`module-${module.id}`);
+  // Fake examples for display until we have real ones
+  const examples = [
+    {
+      title: "Basic Variable Example",
+      code: "# This is a simple variable example\nname = 'Python'\nage = 30\nprint(f'Hello, {name}! You are {age} years old.')",
+      explanation: "This example shows how to create variables and use them in a formatted string."
+    }
+  ];
+
+  const isTopicCompleted = currentUser?.completedChallenges?.includes(topic.id);
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl animate-fade-in">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-bold text-game-primary">
-          Module {module.id + 1}: {module.title}
+          Topic: {topic.title}
         </h1>
         <div className="flex space-x-2">
           <Button 
@@ -66,6 +86,12 @@ const LearningModule: React.FC = () => {
             variant="outline"
           >
             Home
+          </Button>
+          <Button 
+            onClick={() => setScreen('topics')}
+            variant="outline"
+          >
+            Topics
           </Button>
           <Button 
             onClick={() => setScreen('leaderboard')}
@@ -83,7 +109,7 @@ const LearningModule: React.FC = () => {
       </div>
 
       <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-        <p className="text-lg">{module.description}</p>
+        <p className="text-lg">{topic.description}</p>
       </div>
       
       <div className="flex space-x-2 mb-4">
@@ -107,7 +133,7 @@ const LearningModule: React.FC = () => {
             <div 
               className="prose max-w-none"
               dangerouslySetInnerHTML={{ 
-                __html: module.content
+                __html: topic.content
                   .split('\n')
                   .map(line => {
                     if (line.startsWith('# ')) {
@@ -128,32 +154,17 @@ const LearningModule: React.FC = () => {
       ) : (
         <Card className="mb-8">
           <CardHeader>
-            <CardTitle>{module.examples[currentExample].title}</CardTitle>
+            <CardTitle>{examples[currentExample].title}</CardTitle>
           </CardHeader>
           <CardContent>
             <pre className="code-editor rounded mb-4 w-full overflow-x-auto">
               <code dangerouslySetInnerHTML={{ 
-                __html: formatPythonCode(module.examples[currentExample].code) 
+                __html: formatPythonCode(examples[currentExample].code) 
               }} />
             </pre>
             <div className="bg-accent p-4 rounded-md">
               <h4 className="font-semibold mb-2">Explanation:</h4>
-              <p>{module.examples[currentExample].explanation}</p>
-            </div>
-            <div className="flex justify-between mt-4">
-              <Button 
-                onClick={handlePreviousExample}
-                disabled={currentExample === 0}
-                variant="outline"
-              >
-                Previous Example
-              </Button>
-              <Button 
-                onClick={handleNextExample}
-                disabled={currentExample === module.examples.length - 1}
-              >
-                Next Example
-              </Button>
+              <p>{examples[currentExample].explanation}</p>
             </div>
           </CardContent>
         </Card>
@@ -161,18 +172,18 @@ const LearningModule: React.FC = () => {
 
       <div className="flex justify-between">
         <Button
-          onClick={handlePreviousModule}
-          disabled={currentModule === 0}
+          onClick={handlePreviousTopic}
+          disabled={pythonTopics.findIndex(t => t.id === topic.id) === 0}
           variant="outline"
         >
-          Previous Module
+          Previous Topic
         </Button>
         
         <Button
           onClick={handleStartChallenge}
           className="bg-game-primary hover:bg-game-secondary"
         >
-          {isModuleCompleted ? (
+          {isTopicCompleted ? (
             <>
               <Check className="mr-2 h-4 w-4" /> Revisit Challenge
             </>
@@ -184,11 +195,11 @@ const LearningModule: React.FC = () => {
         </Button>
         
         <Button
-          onClick={handleNextModule}
-          disabled={currentModule === pythonModules.length - 1}
+          onClick={handleNextTopic}
+          disabled={pythonTopics.findIndex(t => t.id === topic.id) === pythonTopics.length - 1}
           variant="outline"
         >
-          Next Module
+          Next Topic
         </Button>
       </div>
     </div>

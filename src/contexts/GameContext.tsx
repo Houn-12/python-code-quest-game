@@ -32,6 +32,9 @@ interface GameContextType {
   completeChallenge: (topicId: string, score: number) => void;
   awardXP: (amount: number) => void;
   unlockAchievement: (achievementId: string) => void;
+  // Add missing properties for compatibility
+  currentModule: number;
+  setCurrentModule: (moduleIndex: number) => void;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -42,6 +45,8 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
+  // Add the missing state for currentModule
+  const [currentModule, setCurrentModule] = useState(0);
   const { toast } = useToast();
 
   const awardXP = (amount: number) => {
@@ -127,7 +132,10 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       addToLeaderboard,
       completeChallenge,
       awardXP,
-      unlockAchievement
+      unlockAchievement,
+      // Add the missing properties
+      currentModule,
+      setCurrentModule
     }}>
       {children}
     </GameContext.Provider>
