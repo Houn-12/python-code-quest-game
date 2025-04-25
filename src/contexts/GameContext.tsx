@@ -1,80 +1,99 @@
 
 import React, { createContext, useState, useContext, ReactNode } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 export interface User {
   name: string;
-  progress: number[];
+  progress: Record<string, number>;  // Changed to track per-topic progress
   score: number;
   completedChallenges: string[];
   achievements: string[];
+  xp: number;  // Added XP tracking
 }
 
 export interface LeaderboardEntry {
   name: string;
   score: number;
-  completedModules: number;
+  completedTopics: number;
+  xp: number;
 }
 
 interface GameContextType {
-  screen: "welcome" | "learning" | "challenge" | "leaderboard" | "achievements";
-  setScreen: (screen: "welcome" | "learning" | "challenge" | "leaderboard" | "achievements") => void;
-  currentModule: number;
-  setCurrentModule: (index: number) => void;
+  screen: "welcome" | "topics" | "learning" | "challenge" | "leaderboard" | "achievements";
+  setScreen: (screen: "welcome" | "topics" | "learning" | "challenge" | "leaderboard" | "achievements") => void;
+  currentTopic: string;
+  setCurrentTopic: (topic: string) => void;
+  currentQuestion: number;
+  setCurrentQuestion: (question: number) => void;
   currentUser: User | null;
   setCurrentUser: (user: User | null) => void;
   leaderboard: LeaderboardEntry[];
   addToLeaderboard: (entry: LeaderboardEntry) => void;
-  completeChallenge: (moduleId: number, score: number) => void;
+  completeChallenge: (topicId: string, score: number) => void;
+  awardXP: (amount: number) => void;
   unlockAchievement: (achievementId: string) => void;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
 
 export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [screen, setScreen] = useState<"welcome" | "learning" | "challenge" | "leaderboard" | "achievements">("welcome");
-  const [currentModule, setCurrentModule] = useState(0);
+  const [screen, setScreen] = useState<GameContextType["screen"]>("welcome");
+  const [currentTopic, setCurrentTopic] = useState("");
+  const [currentQuestion, setCurrentQuestion] = useState(0);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([
-    { name: "Python Master", score: 980, completedModules: 8 },
-    { name: "Code Wizard", score: 840, completedModules: 7 },
-    { name: "Syntax Guru", score: 720, completedModules: 6 },
-    { name: "Debug Hero", score: 650, completedModules: 5 },
-    { name: "Algorithm Pro", score: 520, completedModules: 4 },
-  ]);
+  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
+  const { toast } = useToast();
 
-  const addToLeaderboard = (entry: LeaderboardEntry) => {
-    const newLeaderboard = [...leaderboard, entry].sort((a, b) => b.score - a.score);
-    setLeaderboard(newLeaderboard.slice(0, 10)); // Keep top 10
-  };
-
-  const completeChallenge = (moduleId: number, score: number) => {
+  const awardXP = (amount: number) => {
     if (!currentUser) return;
     
-    const progress = [...currentUser.progress];
-    progress[moduleId] = Math.max(progress[moduleId] || 0, score);
+    const newXP = (currentUser.xp || 0) + amount;
+    setCurrentUser({
+      ...currentUser,
+      xp: newXP
+    });
+
+    toast({
+      title: "XP Gained!",
+      description: `+${amount}XP`,
+      className: "bg-green-500 text-white",
+    });
+  };
+
+  const addToLeaderboard = (entry: LeaderboardEntry) => {
+    const newLeaderboard = [...leaderboard, entry]
+      .sort((a, b) => b.xp - a.xp)
+      .slice(0, 10); // Keep top 10
+    setLeaderboard(newLeaderboard);
+  };
+
+  const completeChallenge = (topicId: string, score: number) => {
+    if (!currentUser) return;
+    
+    const newProgress = { ...currentUser.progress };
+    newProgress[topicId] = Math.max(newProgress[topicId] || 0, score);
     
     const completedChallenges = [...currentUser.completedChallenges];
-    if (!completedChallenges.includes(`module-${moduleId}`)) {
-      completedChallenges.push(`module-${moduleId}`);
+    if (!completedChallenges.includes(topicId) && score === 50) { // Perfect score = 5 correct answers * 10XP
+      completedChallenges.push(topicId);
+      unlockAchievement(`master_${topicId}`);
     }
     
-    const totalScore = progress.reduce((sum, score) => sum + score, 0);
+    const totalScore = Object.values(newProgress).reduce((sum, score) => sum + score, 0);
     
     setCurrentUser({
       ...currentUser,
-      progress,
+      progress: newProgress,
       completedChallenges,
-      score: totalScore
+      score: totalScore,
     });
     
-    // Update leaderboard if needed
-    if (totalScore > 0) {
-      addToLeaderboard({
-        name: currentUser.name,
-        score: totalScore,
-        completedModules: completedChallenges.length
-      });
-    }
+    addToLeaderboard({
+      name: currentUser.name,
+      score: totalScore,
+      completedTopics: completedChallenges.length,
+      xp: currentUser.xp || 0
+    });
   };
 
   const unlockAchievement = (achievementId: string) => {
@@ -85,6 +104,12 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         ...currentUser,
         achievements: [...currentUser.achievements, achievementId]
       });
+      
+      toast({
+        title: "Achievement Unlocked!",
+        description: "You've mastered this topic!",
+        className: "bg-game-primary text-white",
+      });
     }
   };
 
@@ -92,13 +117,16 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     <GameContext.Provider value={{
       screen,
       setScreen,
-      currentModule,
-      setCurrentModule,
+      currentTopic,
+      setCurrentTopic,
+      currentQuestion,
+      setCurrentQuestion,
       currentUser,
       setCurrentUser,
       leaderboard,
       addToLeaderboard,
       completeChallenge,
+      awardXP,
       unlockAchievement
     }}>
       {children}

@@ -1,6 +1,7 @@
 
 import { useGame, GameProvider } from '@/contexts/GameContext';
 import WelcomeScreen from '@/components/WelcomeScreen';
+import TopicSelection from '@/components/TopicSelection';
 import LearningModule from '@/components/LearningModule';
 import CodeChallenge from '@/components/CodeChallenge';
 import Leaderboard from '@/components/Leaderboard';
@@ -12,6 +13,7 @@ const GameContent = () => {
   return (
     <div className="min-h-screen bg-game-light">
       {screen === 'welcome' && <WelcomeScreen />}
+      {screen === 'topics' && <TopicSelection />}
       {screen === 'learning' && <LearningModule />}
       {screen === 'challenge' && <CodeChallenge />}
       {screen === 'leaderboard' && <Leaderboard />}

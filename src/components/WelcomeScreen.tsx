@@ -14,12 +14,13 @@ const WelcomeScreen: React.FC = () => {
     if (name.trim()) {
       setCurrentUser({
         name: name.trim(),
-        progress: [],
+        progress: {},
         score: 0,
         completedChallenges: [],
-        achievements: []
+        achievements: [],
+        xp: 0
       });
-      setScreen('learning');
+      setScreen('topics');  // Changed from 'learning' to 'topics'
     }
   };
 
