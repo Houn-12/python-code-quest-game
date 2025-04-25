@@ -1,20 +1,4 @@
-
-export interface Topic {
-  id: string;
-  title: string;
-  description: string;
-  content: string;
-  questions: Question[];
-}
-
-export interface Question {
-  id: string;
-  question: string;
-  code?: string;
-  options: string[];
-  correctAnswer: number;
-  explanation: string;
-}
+import { Topic } from './topics';
 
 export const pythonTopics: Topic[] = [
   {
@@ -693,7 +677,7 @@ result = m.sqrt(16)  # 4.0
 \`\`\`
 
 ## Creating Your Own Modules
-File: `mymodule.py`:
+File: \`mymodule.py\`:
 \`\`\`python
 # My custom module
 def greet(name):
