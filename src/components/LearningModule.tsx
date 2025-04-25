@@ -7,7 +7,7 @@ import { pythonTopics } from '@/data/topics';
 import { Check, ArrowRight } from 'lucide-react';
 
 const LearningModule: React.FC = () => {
-  const { currentTopic, setScreen, currentUser } = useGame();
+  const { currentTopic, setCurrentTopic, setScreen, currentUser } = useGame();
   const [activeTab, setActiveTab] = useState<'content' | 'examples'>('content');
   const [currentExample, setCurrentExample] = useState(0);
   
@@ -30,7 +30,6 @@ const LearningModule: React.FC = () => {
     const currentIndex = pythonTopics.findIndex(t => t.id === topic.id);
     if (currentIndex < pythonTopics.length - 1) {
       const nextTopic = pythonTopics[currentIndex + 1];
-      // Update to use setCurrentTopic instead of setCurrentModule
       if (nextTopic) {
         setCurrentTopic(nextTopic.id);
       }
@@ -41,7 +40,6 @@ const LearningModule: React.FC = () => {
     const currentIndex = pythonTopics.findIndex(t => t.id === topic.id);
     if (currentIndex > 0) {
       const prevTopic = pythonTopics[currentIndex - 1];
-      // Update to use setCurrentTopic instead of setCurrentModule
       if (prevTopic) {
         setCurrentTopic(prevTopic.id);
       }
@@ -63,12 +61,13 @@ const LearningModule: React.FC = () => {
       .replace(/(\+|\-|\*|\/|\%|\=|\=\=|\!\=|\&lt;|\&gt;|\&lt;\=|\&gt;\=)/g, '<span class="code-operator">$1</span>');
   };
 
-  // Fake examples for display until we have real ones
+  // Fetch examples from the topic or use fallbacks
   const examples = [
     {
-      title: "Basic Variable Example",
-      code: "# This is a simple variable example\nname = 'Python'\nage = 30\nprint(f'Hello, {name}! You are {age} years old.')",
-      explanation: "This example shows how to create variables and use them in a formatted string."
+      title: `${topic.title} Example`,
+      code: topic.content.match(/```python([\s\S]*?)```/)?.[1] || 
+        "# No example code available for this topic",
+      explanation: `This example demonstrates key concepts from the ${topic.title} topic.`
     }
   ];
 

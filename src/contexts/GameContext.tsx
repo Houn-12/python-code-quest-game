@@ -82,6 +82,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     if (!completedChallenges.includes(topicId) && score === 50) { // Perfect score = 5 correct answers * 10XP
       completedChallenges.push(topicId);
       unlockAchievement(`master_${topicId}`);
+      awardXP(50); // Award XP for completing the topic
     }
     
     const totalScore = Object.values(newProgress).reduce((sum, score) => sum + score, 0);
