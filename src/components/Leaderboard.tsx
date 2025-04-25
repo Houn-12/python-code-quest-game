@@ -95,7 +95,7 @@ const Leaderboard: React.FC = () => {
                       {entry.name}
                       {isCurrentUser && <span className="ml-2 text-game-primary font-bold">(You)</span>}
                     </TableCell>
-                    <TableCell>{entry.completedModules}</TableCell>
+                    <TableCell>{entry.completedTopics}</TableCell>
                     <TableCell className="text-right font-bold">{entry.score}</TableCell>
                   </TableRow>
                 );

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
-import { Check, AlertTriangle, ArrowLeft } from 'lucide-react';
+import { Check, AlertTriangle, ArrowLeft, ArrowRight } from 'lucide-react';
 import { useGame } from '@/contexts/GameContext';
 import { pythonTopics } from '@/data/topics';
 import CodeEditor from './CodeEditor';
