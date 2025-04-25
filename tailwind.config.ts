@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -18,6 +19,10 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				mono: ["JetBrains Mono", "monospace"],
+				sans: ["Poppins", "sans-serif"],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -61,6 +66,22 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				code: {
+					purple: '#9b87f5',
+					blue: '#1EAEDB',
+					green: '#4CAF50',
+					red: '#F44336',
+					yellow: '#FFEB3B',
+					orange: '#FF9800',
+					comment: '#8E9196'
+				},
+				game: {
+					primary: '#6E59A5',
+					secondary: '#9b87f5',
+					accent: '#D3E4FD',
+					light: '#F1F0FB',
+					dark: '#1A1F2C'
 				}
 			},
 			borderRadius: {
@@ -84,11 +105,26 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'code-typing': {
+					'0%': { width: '0' },
+					'100%': { width: '100%' }
+				},
+				'fade-in': {
+					'0%': { opacity: '0' },
+					'100%': { opacity: '1' }
+				},
+				'pulse-light': {
+					'0%, 100%': { opacity: '1' },
+					'50%': { opacity: '0.7' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'code-typing': 'code-typing 1.5s steps(30, end)',
+				'fade-in': 'fade-in 0.5s ease-in-out',
+				'pulse-light': 'pulse-light 1.5s infinite'
 			}
 		}
 	},
