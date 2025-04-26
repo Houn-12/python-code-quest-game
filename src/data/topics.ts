@@ -109,41 +109,6 @@ price = float("19.99")  # 19.99
         ],
         correctAnswer: 2,
         explanation: "Python variables are dynamically typed and can change types during execution."
-      },
-      {
-        id: "var_q6",
-        question: "What happens when you try to add a string and an integer in Python?",
-        options: ["They concatenate", "The integer converts to string", "TypeError occurs", "The string converts to integer"],
-        correctAnswer: 2,
-        explanation: "Python raises a TypeError when trying to add different types without explicit conversion."
-      },
-      {
-        id: "var_q7",
-        question: "Which of these creates a floating-point number?",
-        options: ["10", "10.0", "int(10)", "str(10.0)"],
-        correctAnswer: 1,
-        explanation: "10.0 creates a floating-point number. Numbers with decimal points are stored as float type."
-      },
-      {
-        id: "var_q8",
-        question: "What is the value of type(True)?",
-        options: ["'bool'", "'Boolean'", "<class 'bool'>", "true"],
-        correctAnswer: 2,
-        explanation: "The type() function returns <class 'bool'> for boolean values in Python."
-      },
-      {
-        id: "var_q9",
-        question: "How do you create a complex number in Python?",
-        options: ["complex(1, 2)", "(1, 2)", "1 + 2i", "1 + 2j"],
-        correctAnswer: 0,
-        explanation: "The complex() function or using 'j' notation creates complex numbers in Python."
-      },
-      {
-        id: "var_q10",
-        question: "What is the result of dividing two integers in Python 3?",
-        options: ["Always an integer", "Always a float", "Depends on the numbers", "String representation"],
-        correctAnswer: 1,
-        explanation: "In Python 3, division of integers with / always returns a float."
       }
     ]
   },
@@ -273,41 +238,6 @@ x not in y  # True if x is not a member of y
         options: ["13", "16", "11", "8"],
         correctAnswer: 1,
         explanation: "First x becomes 5+3=8, then x becomes 8*2=16."
-      },
-      {
-        id: "op_q6",
-        question: "What is the result of 5 ** 2?",
-        options: ["7", "10", "25", "52"],
-        correctAnswer: 2,
-        explanation: "The ** operator performs exponentiation. 5 raised to the power of 2 is 25."
-      },
-      {
-        id: "op_q7",
-        question: "What is the value of 17 // 5?",
-        options: ["3", "3.4", "4", "3.0"],
-        correctAnswer: 0,
-        explanation: "The // operator performs floor division. 17 divided by 5 is 3.4, floored to 3."
-      },
-      {
-        id: "op_q8",
-        question: "What is the result of 'Python' * 2?",
-        options: ["PythonPython", "Python2", "Error", "Python * 2"],
-        correctAnswer: 0,
-        explanation: "The * operator with a string and integer repeats the string that many times."
-      },
-      {
-        id: "op_q9",
-        question: "What is the output of True + True in Python?",
-        options: ["True", "False", "2", "Error"],
-        correctAnswer: 2,
-        explanation: "True is treated as 1 in arithmetic operations, so True + True equals 2."
-      },
-      {
-        id: "op_q10",
-        question: "What is the result of 3 < 4 < 5 in Python?",
-        options: ["Error", "False", "True", "Invalid syntax"],
-        correctAnswer: 2,
-        explanation: "Python supports chained comparisons. 3 < 4 < 5 is equivalent to 3 < 4 and 4 < 5."
       }
     ]
   },
@@ -433,41 +363,6 @@ if not username:
         options: ["Single digit positive", "Multiple digit positive", "Non-positive", "Nothing"],
         correctAnswer: 1,
         explanation: "First, x > 0 is True, so we enter the outer if. Then, x < 10 is False (since 20 is not less than 10), so we enter the else clause and print 'Multiple digit positive'."
-      },
-      {
-        id: "cf_q6",
-        question: "What is the output of this code?\nx = -1\nif x > 0:\n    print('Positive')\nelif x == 0:\n    print('Zero')\nelse:\n    print('Negative')",
-        options: ["Positive", "Zero", "Negative", "Nothing"],
-        correctAnswer: 2,
-        explanation: "Since x is -1, the first condition (x > 0) is false. The elif condition (x == 0) is also false. Therefore, the else block is executed, printing 'Negative'."
-      },
-      {
-        id: "cf_q7",
-        question: "What will be the value of 'grade'?\nscore = 92\nif score >= 90:\n    grade = 'A'\nelif score >= 80:\n    grade = 'B'\nelse:\n    grade = 'C'",
-        options: ["A", "B", "C", "None"],
-        correctAnswer: 0,
-        explanation: "Since score is 92, the first condition (score >= 90) is true, so 'A' is assigned to grade."
-      },
-      {
-        id: "cf_q8",
-        question: "What will this code print?\nx = 7\nif x % 2 == 0:\n    print('Even')\nelse:\n    print('Odd')",
-        options: ["Even", "Odd", "Nothing", "Error"],
-        correctAnswer: 1,
-        explanation: "The % operator returns the remainder of division. 7 % 2 is 1, which is not 0, so the else block executes and prints 'Odd'."
-      },
-      {
-        id: "cf_q9",
-        question: "What will this code print?\nage = 25\ncountry = 'USA'\nif age > 18 and country == 'Canada':\n    print('Eligible')\nelse:\n    print('Not eligible')",
-        options: ["Eligible", "Not eligible", "Nothing", "Error"],
-        correctAnswer: 1,
-        explanation: "The condition (age > 18 and country == 'Canada') is false because country is 'USA', so the else block executes and prints 'Not eligible'."
-      },
-      {
-        id: "cf_q10",
-        question: "What will this code print?\nx = 5\nif x > 0:\n    if x < 10:\n        print('Valid')\n    else:\n        print('Invalid')\nelse:\n    print('Negative')",
-        options: ["Valid", "Invalid", "Negative", "Nothing"],
-        correctAnswer: 0,
-        explanation: "First, x > 0 is True, so we enter the outer if. Then, x < 10 is also True, so we print 'Valid'."
       }
     ]
   },
@@ -602,46 +497,6 @@ for i in range(3):
         ],
         correctAnswer: 1,
         explanation: "The break statement terminates the loop and transfers control to the statement after the loop."
-      },
-      {
-        id: "loop_q6",
-        question: "What will this code print?\nfor i in range(5):\n    if i == 3:\n        break\n    print(i)",
-        options: ["0 1 2 3", "0 1 2", "0 1 2 4", "1 2 4"],
-        correctAnswer: 1,
-        explanation: "The loop prints i until i equals 3, at which point the break statement exits the loop."
-      },
-      {
-        id: "loop_q7",
-        question: "What is the output of this code?\ni = 0\nwhile i < 3:\n    print(i)\n    i += 1\nelse:\n    print('Loop finished')",
-        options: ["0 1 2", "0 1 2 Loop finished", "Loop finished", "Error"],
-        correctAnswer: 1,
-        explanation: "The loop prints i and increments it until i < 3 is false, then the else block executes and prints 'Loop finished'."
-      },
-      {
-        id: "loop_q8",
-        question: "What will this code print?\nfor i in range(1, 6, 2):\n    print(i, end=' ')",
-        options: ["1 2 3 4 5", "1 3 5", "2 4 6", "1 3 5 7"],
-        correctAnswer: 1,
-        explanation: "range(1, 6, 2) starts at 1, ends before 6, and increments by 2, giving 1, 3, 5."
-      },
-      {
-        id: "loop_q9",
-        question: "What will this code print?\nfor i in range(3):\n    pass\nprint('Done')",
-        options: ["0 1 2 Done", "Done", "Nothing", "Error"],
-        correctAnswer: 1,
-        explanation: "The pass statement does nothing. The loop iterates, but nothing happens inside it, then 'Done' is printed."
-      },
-      {
-        id: "loop_q10",
-        question: "What is the purpose of the 'continue' statement in a loop?",
-        options: [
-          "To exit the loop completely",
-          "To skip the rest of the current iteration and move to the next",
-          "To pause the loop",
-          "To repeat the current iteration"
-        ],
-        correctAnswer: 1,
-        explanation: "The continue statement skips the rest of the current iteration and moves to the next iteration of the loop."
       }
     ]
   },
@@ -776,46 +631,616 @@ print(x)  # Can access global variable
         ],
         correctAnswer: 1,
         explanation: "The *args parameter syntax allows a function to accept a variable number of positional arguments, which are collected into a tuple."
+      }
+    ]
+  },
+  {
+    id: "lists_tuples",
+    title: "Lists & Tuples",
+    description: "Learn about Python's built-in sequence data structures",
+    content: `# Lists and Tuples in Python
+
+Lists and tuples are ordered collections that can hold multiple items.
+
+## Lists
+Lists are mutable (can be changed) and created with square brackets.
+
+### Creating Lists
+\`\`\`python
+fruits = ["apple", "banana", "cherry"]
+mixed_list = [1, "Hello", True, 3.14]
+empty_list = []
+nested_list = [1, [2, 3], 4]
+\`\`\`
+
+### Accessing Elements
+\`\`\`python
+fruits = ["apple", "banana", "cherry"]
+
+# Indexing (starts at 0)
+first_fruit = fruits[0]  # "apple"
+last_fruit = fruits[-1]  # "cherry"
+
+# Slicing
+some_fruits = fruits[0:2]  # ["apple", "banana"]
+\`\`\`
+
+### Modifying Lists
+\`\`\`python
+fruits = ["apple", "banana", "cherry"]
+
+# Add items
+fruits.append("orange")  # Add to the end
+fruits.insert(1, "mango")  # Insert at position 1
+
+# Remove items
+fruits.remove("banana")  # Remove by value
+popped = fruits.pop()  # Remove and return last item
+del fruits[0]  # Delete by index
+\`\`\`
+
+### List Methods
+\`\`\`python
+numbers = [3, 1, 4, 1, 5, 9]
+
+# Sorting
+numbers.sort()  # Sort in-place
+sorted_numbers = sorted(numbers)  # Return sorted copy
+
+# Other methods
+length = len(numbers)  # Get length
+count = numbers.count(1)  # Count occurrences
+numbers.reverse()  # Reverse the list
+index = numbers.index(5)  # Find index of value
+\`\`\`
+
+## Tuples
+Tuples are immutable (cannot be changed) and created with parentheses.
+
+### Creating Tuples
+\`\`\`python
+coordinates = (10, 20)
+mixed_tuple = (1, "Hello", True)
+single_item = (42,)  # Note the comma
+empty_tuple = ()
+\`\`\`
+
+### Accessing Tuple Elements
+\`\`\`python
+coordinates = (10, 20, 30)
+x = coordinates[0]
+y = coordinates[1]
+
+# Tuple unpacking
+x, y, z = coordinates
+\`\`\`
+
+### Tuples vs Lists
+- Tuples are immutable (cannot be modified)
+- Tuples are generally faster than lists
+- Tuples can be used as dictionary keys, lists cannot
+- Use tuples for fixed collections, lists for collections that might change
+\`\`\`python
+# This works
+point = (10, 20)
+points_dict = {point: "origin"}
+
+# This would raise an error
+# list_key = [10, 20]
+# points_dict = {list_key: "origin"}  # TypeError
+\`\`\`
+    `,
+    questions: [
+      {
+        id: "list_q1",
+        question: "What is the output of the following code?\nlist = [1, 2, 3, 4, 5]\nprint(list[1:4])",
+        options: ["[1, 2, 3, 4]", "[2, 3, 4]", "[1, 2, 3]", "[2, 3, 4, 5]"],
+        correctAnswer: 1,
+        explanation: "List slicing [1:4] starts at index 1 and ends at index 3 (4-1), giving [2, 3, 4]."
       },
       {
-        id: "func_q6",
-        question: "What is the purpose of the 'return' statement in a function?",
+        id: "list_q2",
+        question: "What's the main difference between a list and a tuple in Python?",
         options: [
-          "To print output to the console",
-          "To exit the function and optionally return a value",
-          "To define a new variable",
-          "To call another function"
+          "Lists can contain mixed data types, tuples cannot",
+          "Lists are ordered, tuples are not",
+          "Lists are mutable, tuples are immutable",
+          "Lists can be indexed, tuples cannot"
+        ],
+        correctAnswer: 2,
+        explanation: "The key difference is that lists are mutable (can be changed after creation), while tuples are immutable (cannot be changed after creation)."
+      },
+      {
+        id: "list_q3",
+        question: "What will this code print?\ntuple1 = (1, 2, 3)\ntuple1[0] = 4\nprint(tuple1)",
+        options: ["(4, 2, 3)", "(1, 2, 3)", "Error", "(1, 4, 3)"],
+        correctAnswer: 2,
+        explanation: "This will raise a TypeError because tuples are immutable, and their elements cannot be changed after creation."
+      },
+      {
+        id: "list_q4",
+        question: "What is the result of this operation?\nlist1 = [1, 2, 3]\nlist2 = [4, 5]\nprint(list1 + list2)",
+        options: ["[1, 2, 3, 4, 5]", "[5, 7, 8]", "Error", "[1, 2, 3, [4, 5]]"],
+        correctAnswer: 0,
+        explanation: "The + operator with lists performs concatenation, joining the two lists together to form a new list [1, 2, 3, 4, 5]."
+      },
+      {
+        id: "list_q5",
+        question: "What will this code print?\nnames = ['Alice', 'Bob', 'Charlie']\nnames.append(['Dave', 'Eve'])\nprint(len(names))",
+        options: ["3", "4", "5", "Error"],
+        correctAnswer: 1,
+        explanation: "The append method adds a single element to the end of the list. Since ['Dave', 'Eve'] is added as one element (a nested list), the final length is 4."
+      }
+    ]
+  },
+  {
+    id: "dictionaries_sets",
+    title: "Dictionaries & Sets",
+    description: "Learn about Python's key-value and unique collection data structures",
+    content: `# Dictionaries and Sets in Python
+
+Dictionaries and sets are unordered collections in Python.
+
+## Dictionaries
+Dictionaries are collections of key-value pairs.
+
+### Creating Dictionaries
+\`\`\`python
+# Creating a dictionary
+person = {
+    "name": "John",
+    "age": 30,
+    "city": "New York"
+}
+
+# Empty dictionary
+empty_dict = {}
+
+# Dictionary with mixed key types
+mixed_dict = {1: "one", "two": 2, (3, 4): "tuple key"}
+\`\`\`
+
+### Accessing Dictionary Values
+\`\`\`python
+person = {"name": "John", "age": 30, "city": "New York"}
+
+# Accessing values by key
+name = person["name"]  # "John"
+
+# Using get() method (safer, returns None if key doesn't exist)
+country = person.get("country")  # None
+country = person.get("country", "USA")  # "USA" (default value)
+\`\`\`
+
+### Modifying Dictionaries
+\`\`\`python
+person = {"name": "John", "age": 30}
+
+# Adding or updating key-value pairs
+person["city"] = "New York"  # Add new key
+person["age"] = 31  # Update existing key
+
+# Removing items
+del person["city"]  # Remove by key
+age = person.pop("age")  # Remove and return value
+person.clear()  # Remove all items
+\`\`\`
+
+### Dictionary Methods
+\`\`\`python
+person = {"name": "John", "age": 30, "city": "New York"}
+
+# Common methods
+keys = person.keys()  # dict_keys(['name', 'age', 'city'])
+values = person.values()  # dict_values(['John', 30, 'New York'])
+items = person.items()  # dict_items([('name', 'John'), ('age', 30), ('city', 'New York')])
+
+# Check if key exists
+has_name = "name" in person  # True
+\`\`\`
+
+## Sets
+Sets are unordered collections of unique elements.
+
+### Creating Sets
+\`\`\`python
+# Creating a set
+fruits = {"apple", "banana", "cherry"}
+
+# Empty set (cannot use {}, as that creates an empty dict)
+empty_set = set()
+
+# Creating a set from a list (removes duplicates)
+numbers = set([1, 2, 2, 3, 4, 4, 5])  # {1, 2, 3, 4, 5}
+\`\`\`
+
+### Set Operations
+\`\`\`python
+set1 = {1, 2, 3, 4}
+set2 = {3, 4, 5, 6}
+
+# Union (combines elements from both sets)
+union_set = set1 | set2  # {1, 2, 3, 4, 5, 6}
+# or
+union_set = set1.union(set2)
+
+# Intersection (elements common to both sets)
+intersection_set = set1 & set2  # {3, 4}
+# or
+intersection_set = set1.intersection(set2)
+
+# Difference (elements in set1 but not in set2)
+difference_set = set1 - set2  # {1, 2}
+# or
+difference_set = set1.difference(set2)
+
+# Symmetric difference (elements in either set, but not both)
+sym_diff = set1 ^ set2  # {1, 2, 5, 6}
+# or
+sym_diff = set1.symmetric_difference(set2)
+\`\`\`
+
+### Modifying Sets
+\`\`\`python
+fruits = {"apple", "banana"}
+
+# Adding elements
+fruits.add("cherry")
+fruits.update(["orange", "mango"])
+
+# Removing elements
+fruits.remove("apple")  # Raises error if not found
+fruits.discard("grape")  # No error if not found
+popped = fruits.pop()  # Remove and return arbitrary element
+fruits.clear()  # Remove all elements
+\`\`\`
+    `,
+    questions: [
+      {
+        id: "dict_q1",
+        question: "What will be the output of the following code?\ndict1 = {'a': 1, 'b': 2}\nprint(dict1.get('c', 3))",
+        options: ["None", "3", "{'c': 3}", "Error"],
+        correctAnswer: 1,
+        explanation: "The get() method returns the value for the specified key if it exists, or the default value provided (3 in this case) if the key doesn't exist."
+      },
+      {
+        id: "dict_q2",
+        question: "What happens when you try to access a key that doesn't exist in a dictionary using square brackets?",
+        options: ["Returns None", "Returns an empty value", "Raises a KeyError", "Adds the key with a None value"],
+        correctAnswer: 2,
+        explanation: "Accessing a non-existent key with dict[key] syntax raises a KeyError."
+      },
+      {
+        id: "dict_q3",
+        question: "Which of the following accurately describes a Python set?",
+        options: [
+          "An ordered collection of key-value pairs",
+          "An ordered collection of unique elements",
+          "An unordered collection of unique elements",
+          "An unordered collection of elements that can contain duplicates"
+        ],
+        correctAnswer: 2,
+        explanation: "A set in Python is an unordered collection of unique elements. It doesn't allow duplicates and doesn't maintain insertion order."
+      },
+      {
+        id: "dict_q4",
+        question: "What will this code produce?\nset1 = {1, 2, 3}\nset2 = {3, 4, 5}\nprint(set1 & set2)",
+        options: ["{1, 2, 3, 4, 5}", "{3}", "{1, 2, 4, 5}", "Error"],
+        correctAnswer: 1,
+        explanation: "The & operator performs set intersection, returning a new set with elements common to both sets. In this case, only 3 appears in both sets."
+      },
+      {
+        id: "dict_q5",
+        question: "How do you create an empty set in Python?",
+        options: ["{}", "set()", "[]", "dict()"],
+        correctAnswer: 1,
+        explanation: "An empty set is created using set(). Using {} creates an empty dictionary, not an empty set."
+      }
+    ]
+  },
+  {
+    id: "string_manipulation",
+    title: "String Manipulation",
+    description: "Learn advanced techniques for working with text in Python",
+    content: `# String Manipulation in Python
+
+Strings in Python are sequences of characters and offer many built-in methods for manipulation.
+
+## String Basics
+\`\`\`python
+# Creating strings
+single_quotes = 'Hello'
+double_quotes = "Hello"
+triple_quotes = '''Multiple
+line string'''
+
+# String length
+length = len("Hello")  # 5
+
+# Accessing characters
+first_char = "Hello"[0]  # 'H'
+last_char = "Hello"[-1]  # 'o'
+\`\`\`
+
+## String Slicing
+\`\`\`python
+text = "Python Programming"
+
+# Slicing: [start:end:step]
+substring = text[0:6]  # "Python"
+every_other = text[::2]  # "Pto rgamn"
+reversed_text = text[::-1]  # "gnimmargorP nohtyP"
+\`\`\`
+
+## String Methods
+\`\`\`python
+text = "Python Programming"
+
+# Case conversion
+upper_case = text.upper()  # "PYTHON PROGRAMMING"
+lower_case = text.lower()  # "python programming"
+title_case = text.title()  # "Python Programming"
+
+# Finding text
+position = text.find("Pro")  # 7
+count = text.count("m")  # 2
+
+# Checking properties
+starts_with = text.startswith("Py")  # True
+ends_with = text.endswith("ing")  # True
+is_alpha = text.isalpha()  # False (because of the space)
+is_digit = "123".isdigit()  # True
+\`\`\`
+
+## String Modification
+\`\`\`python
+# Replacing
+text = "Hello World"
+new_text = text.replace("World", "Python")  # "Hello Python"
+
+# Stripping whitespace
+text = "   spacious   "
+stripped = text.strip()  # "spacious"
+left_strip = text.lstrip()  # "spacious   "
+right_strip = text.rstrip()  # "   spacious"
+
+# Joining and splitting
+words = ["Python", "is", "fun"]
+sentence = " ".join(words)  # "Python is fun"
+
+text = "Python,is,fun"
+parts = text.split(",")  # ["Python", "is", "fun"]
+lines = "Line1\\nLine2\\nLine3".splitlines()  # ["Line1", "Line2", "Line3"]
+\`\`\`
+
+## String Formatting
+\`\`\`python
+# Old style formatting
+name = "Alice"
+age = 25
+old_format = "Hello, %s. You are %d years old." % (name, age)
+
+# str.format() method
+format_method = "Hello, {}. You are {} years old.".format(name, age)
+format_named = "Hello, {name}. You are {age} years old.".format(name=name, age=age)
+
+# f-strings (Python 3.6+)
+f_string = f"Hello, {name}. You are {age} years old."
+
+# Formatting options
+pi = 3.14159
+formatted_pi = f"Pi is approximately {pi:.2f}"  # "Pi is approximately 3.14"
+\`\`\`
+
+## Raw Strings
+\`\`\`python
+# Raw strings ignore escape characters
+normal_string = "First line\\nSecond line"  # Will have a newline
+raw_string = r"First line\\nSecond line"  # Will contain \\n literally
+\`\`\`
+    `,
+    questions: [
+      {
+        id: "str_q1",
+        question: "What is the output of the following?\ns = 'python'\nprint(s[2:5])",
+        options: ["pyt", "yth", "tho", "hon"],
+        correctAnswer: 2,
+        explanation: "String slicing s[2:5] starts at index 2 (third character) and ends at index 4 (5-1), giving 'tho'."
+      },
+      {
+        id: "str_q2",
+        question: "What does the strip() method do in Python?",
+        options: [
+          "Removes all whitespace characters from the string",
+          "Removes leading and trailing whitespace characters",
+          "Removes specified characters from the string",
+          "Splits the string into a list of characters"
         ],
         correctAnswer: 1,
-        explanation: "The 'return' statement exits the function and can return a value to the caller."
+        explanation: "The strip() method returns a copy of the string with leading and trailing whitespace removed."
       },
       {
-        id: "func_q7",
-        question: "What will this code print?\ndef outer_func():\n    x = 10\n    def inner_func():\n        nonlocal x\n        x = 20\n    inner_func()\n    return x\n\nprint(outer_func())",
-        options: ["10", "20", "None", "Error"],
+        id: "str_q3",
+        question: "What will the following code print?\ntext = 'Python is fun'\nprint(text.replace('fun', 'awesome').upper())",
+        options: ["PYTHON IS FUN", "PYTHON IS AWESOME", "Python is awesome", "python is awesome"],
         correctAnswer: 1,
-        explanation: "The 'nonlocal' keyword allows the inner function to modify the variable x in the outer function's scope, so x becomes 20."
+        explanation: "First, 'fun' is replaced with 'awesome', resulting in 'Python is awesome'. Then, upper() converts all characters to uppercase, giving 'PYTHON IS AWESOME'."
       },
       {
-        id: "func_q8",
-        question: "What is the output of this code?\ndef func(x, y, z=0):\n    return x + y + z\n\nprint(func(1, 2))",
-        options: ["1", "3", "0", "Error"],
+        id: "str_q4",
+        question: "What is the output of this code?\nprint(len('Hello\\nWorld'))",
+        options: ["10", "11", "9", "12"],
         correctAnswer: 1,
-        explanation: "The function is called with x=1 and y=2, and z uses its default value of 0, so the result is 1 + 2 + 0 = 3."
+        explanation: "The string contains 'Hello', a newline character (\\n), and 'World'. The newline is counted as a single character, so the total length is 11."
       },
       {
-        id: "func_q9",
-        question: "What happens when a function doesn't have a return statement?",
-        options: ["It returns 0", "It returns None", "It causes an error", "It returns an empty string"],
-        correctAnswer: 1,
-        explanation: "If a function doesn't have a return statement or has a return statement without a value, it returns None."
+        id: "str_q5",
+        question: "What will this f-string expression evaluate to?\nname = 'Alice'\nage = 30\nprint(f'{name} will be {age+5} in 5 years')",
+        options: [
+          "Alice will be 35 in 5 years",
+          "Alice will be age+5 in 5 years",
+          "name will be 35 in 5 years",
+          "Error"
+        ],
+        correctAnswer: 0,
+        explanation: "F-strings allow you to embed expressions inside string literals. The variables name and age+5 are evaluated and inserted into the string."
+      }
+    ]
+  },
+  {
+    id: "file_handling",
+    title: "File Handling",
+    description: "Learn how to read from and write to files in Python",
+    content: `# File Handling in Python
+
+Python provides built-in functions and methods for working with files.
+
+## Opening Files
+\`\`\`python
+# Basic file opening
+file = open("example.txt", "r")  # Open for reading
+file.close()  # Always close files when done
+
+# Using with statement (recommended)
+with open("example.txt", "r") as file:
+    # File operations here
+    pass  # File is automatically closed after the block
+\`\`\`
+
+## File Opening Modes
+- \`"r"\`: Read (default)
+- \`"w"\`: Write (creates new file or truncates existing)
+- \`"a"\`: Append (creates new file or appends to existing)
+- \`"x"\`: Exclusive creation (fails if file exists)
+- \`"b"\`: Binary mode
+- \`"t"\`: Text mode (default)
+- \`"+"\`: Open for updating (reading & writing)
+
+## Reading Files
+\`\`\`python
+# Reading the entire file at once
+with open("example.txt", "r") as file:
+    content = file.read()  # Read entire content as a string
+
+# Reading line by line
+with open("example.txt", "r") as file:
+    first_line = file.readline()  # Read a single line
+    
+# Reading all lines into a list
+with open("example.txt", "r") as file:
+    lines = file.readlines()  # List of lines with newline characters
+
+# Iterating over lines (memory efficient)
+with open("example.txt", "r") as file:
+    for line in file:
+        print(line, end="")  # Process each line
+\`\`\`
+
+## Writing to Files
+\`\`\`python
+# Writing text
+with open("output.txt", "w") as file:
+    file.write("Hello, World!\\n")  # Write a string
+    file.write("Another line.")
+    
+# Writing multiple lines
+lines = ["Line 1\\n", "Line 2\\n", "Line 3\\n"]
+with open("output.txt", "w") as file:
+    file.writelines(lines)  # Write multiple lines
+\`\`\`
+
+## Appending to Files
+\`\`\`python
+with open("log.txt", "a") as file:
+    file.write("New log entry\\n")  # Adds to the end of the file
+\`\`\`
+
+## Working with Binary Files
+\`\`\`python
+# Reading binary data
+with open("image.jpg", "rb") as file:
+    image_data = file.read()
+    
+# Writing binary data
+with open("copy.jpg", "wb") as file:
+    file.write(image_data)
+\`\`\`
+
+## File Position
+\`\`\`python
+with open("example.txt", "r") as file:
+    content = file.read(5)  # Read first 5 characters
+    position = file.tell()  # Get current position
+    file.seek(0)  # Move back to the beginning
+    content_again = file.read(5)  # Read first 5 characters again
+\`\`\`
+
+## Error Handling with Files
+\`\`\`python
+try:
+    with open("nonexistent.txt", "r") as file:
+        content = file.read()
+except FileNotFoundError:
+    print("File does not exist!")
+except IOError:
+    print("An error occurred while reading the file!")
+\`\`\`
+    `,
+    questions: [
+      {
+        id: "file_q1",
+        question: "Which mode should be used to open a file for writing, without truncating existing content?",
+        options: ["r", "w", "a", "x"],
+        correctAnswer: 2,
+        explanation: "The 'a' (append) mode opens the file for writing without truncating existing content, positioning the file pointer at the end of the file."
       },
       {
-        id: "func_q10",
-        question: "What will the following code print?\ndef add(a, b=2, c=3):\n    return a + b + c\n\nprint(add(1, c=5))",
-        options: ["6", "8", "9", "Error"],
+        id: "file_q2",
+        question: "What happens if you open a non-existent file in 'r' mode?",
+        options: [
+          "The file is created",
+          "Nothing happens",
+          "A FileNotFoundError is raised",
+          "The file is created but empty"
+        ],
+        correctAnswer: 2,
+        explanation: "Opening a non-existent file in read mode ('r') raises a FileNotFoundError because there's no file to read from."
+      },
+      {
+        id: "file_q3",
+        question: "What is the advantage of using the 'with' statement when working with files?",
+        options: [
+          "It makes the code run faster",
+          "It automatically closes the file when the block exits",
+          "It prevents file corruption",
+          "It allows for multi-threading"
+        ],
         correctAnswer: 1,
-        explanation: "The function is called with a=1, the default b=2, and c is overridden to 5, so the result is 1 + 2 + 5 = 8."
+        explanation: "The main advantage of the 'with' statement is that it ensures the file is properly closed when the block exits, even if an exception occurs."
+      },
+      {
+        id: "file_q4",
+        question: "What does the following code do?\nwith open('file.txt', 'w') as f:\n    f.write('Hello')",
+        options: [
+          "Appends 'Hello' to file.txt",
+          "Creates a new file.txt with 'Hello' or overwrites if it exists",
+          "Reads 'Hello' from file.txt",
+          "Raises an error if file.txt doesn't exist"
+        ],
+        correctAnswer: 1,
+        explanation: "Opening a file in 'w' mode creates a new file if it doesn't exist, or truncates (empties) the file if it exists, then writes 'Hello' to it."
+      },
+      {
+        id: "file_q5",
+        question: "What method would you use to read a file line by line efficiently in Python?",
+        options: [
+          "file.read().split('\\n')",
+          "file.readlines()",
+          "Iterating over the file object directly",
+          "file.readline() in a loop"
+        ],
+        correctAnswer: 2,
+        explanation: "Iterating over the file object directly (for line in file) is the most memory-efficient way to read a file line by line, as it doesn't load the entire file into memory."
       }
     ]
   }

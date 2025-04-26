@@ -64,8 +64,10 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [currentModule, setCurrentModule] = useState(0);
   const { toast } = useToast();
 
+  // Check for achievements when user data changes
   useEffect(() => {
     if (currentUser) {
+      // Check for topic completion achievements
       const completedTopicsCount = currentUser.completedChallenges.length;
       
       if (completedTopicsCount >= 1 && !currentUser.achievements.includes('first_topic')) {
@@ -96,16 +98,6 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       if (currentUser.xp >= 500 && !currentUser.achievements.includes('xp_500')) {
         unlockAchievement('xp_500');
       }
-
-      // Update leaderboard entry whenever user data changes
-      if (currentUser.name) {
-        addToLeaderboard({
-          name: currentUser.name,
-          score: currentUser.score,
-          completedTopics: currentUser.completedChallenges.length,
-          xp: currentUser.xp
-        });
-      }
     }
   }, [currentUser?.completedChallenges.length, currentUser?.xp]);
 
@@ -113,12 +105,19 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     if (!currentUser) return;
     
     const newXP = (currentUser.xp || 0) + amount;
-    setCurrentUser(prev => {
-      if (!prev) return null;
-      return {
-        ...prev,
-        xp: newXP
-      };
+    const updatedUser = {
+      ...currentUser,
+      xp: newXP
+    };
+
+    setCurrentUser(updatedUser);
+    
+    // Make sure leaderboard is always in sync with user XP
+    addToLeaderboard({
+      name: updatedUser.name,
+      score: updatedUser.score,
+      completedTopics: updatedUser.completedChallenges.length,
+      xp: updatedUser.xp
     });
 
     toast({
@@ -129,11 +128,20 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   const addToLeaderboard = (entry: LeaderboardEntry) => {
-    setLeaderboard(prevLeaderboard => {
-      const newLeaderboard = prevLeaderboard.filter(item => item.name !== entry.name);
+    // Create a new leaderboard with both existing entries and the new entry
+    const newLeaderboard = [...leaderboard];
+    
+    // Update existing entry or add new one
+    const existingIndex = newLeaderboard.findIndex(item => item.name === entry.name);
+    if (existingIndex >= 0) {
+      newLeaderboard[existingIndex] = entry;
+    } else {
       newLeaderboard.push(entry);
-      return newLeaderboard.sort((a, b) => b.xp - a.xp);
-    });
+    }
+    
+    // Sort by score and limit to top entries
+    const sortedLeaderboard = newLeaderboard.sort((a, b) => b.xp - a.xp);
+    setLeaderboard(sortedLeaderboard);
   };
 
   const completeChallenge = (topicId: string, score: number) => {
@@ -154,47 +162,52 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       }
       
       // Award XP for completing the topic
+      awardXP(50);
+      
+      const totalScore = Object.values(newProgress).reduce((sum, score) => sum + score, 0);
+      
       const updatedUser = {
         ...currentUser,
         progress: newProgress,
         completedChallenges,
-        score: currentUser.score + score,
+        score: totalScore,
       };
       
       setCurrentUser(updatedUser);
-      
-      // Update leaderboard entry
-      addToLeaderboard({
-        name: updatedUser.name,
-        score: updatedUser.score,
-        completedTopics: updatedUser.completedChallenges.length,
-        xp: updatedUser.xp
+    } else {
+      // If topic was already completed, just update progress without awarding XP
+      setCurrentUser({
+        ...currentUser,
+        progress: newProgress,
       });
     }
   };
 
   const unlockAchievement = (achievementId: string) => {
-    if (!currentUser || currentUser.achievements.includes(achievementId)) return;
+    if (!currentUser) return;
     
-    const achievementData = achievements.find(a => a.id === achievementId);
-    
-    const updatedUser = {
-      ...currentUser,
-      achievements: [...currentUser.achievements, achievementId]
-    };
-    
-    setCurrentUser(updatedUser);
-    
-    // Award XP for getting an achievement
-    if (!achievementId.startsWith('xp_')) {
-      awardXP(20);
+    if (!currentUser.achievements.includes(achievementId)) {
+      // Find achievement data
+      const achievementData = achievements.find(a => a.id === achievementId);
+      
+      const updatedUser = {
+        ...currentUser,
+        achievements: [...currentUser.achievements, achievementId]
+      };
+      
+      setCurrentUser(updatedUser);
+      
+      toast({
+        title: "Achievement Unlocked!",
+        description: achievementData ? achievementData.title : "You've unlocked a new achievement!",
+        className: "bg-primary text-white",
+      });
+      
+      // Award XP for getting an achievement
+      if (!achievementId.startsWith('xp_')) {  // Avoid infinite loop with XP achievements
+        awardXP(20);  // Award 20 XP per achievement
+      }
     }
-    
-    toast({
-      title: "Achievement Unlocked!",
-      description: achievementData ? achievementData.title : "You've unlocked a new achievement!",
-      className: "bg-primary text-white",
-    });
   };
 
   return (
