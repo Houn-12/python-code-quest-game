@@ -17,10 +17,8 @@ const CodeChallenge: React.FC = () => {
   const [earnedXP, setEarnedXP] = useState<number>(0);
   const { toast } = useToast();
   
-  // Find the topic based on currentTopic ID
   const topic = pythonTopics.find(t => t.id === currentTopic);
   
-  // Safety check
   if (!topic) {
     return (
       <div className="container mx-auto px-4 py-8">
@@ -32,10 +30,8 @@ const CodeChallenge: React.FC = () => {
     );
   }
 
-  // Check if topic is already completed
   const isTopicCompleted = currentUser?.completedChallenges.includes(topic.id);
 
-  // Reset state when changing questions  
   useEffect(() => {
     setIsCorrect(null);
     setAttemptedAnswer(null);
@@ -46,7 +42,6 @@ const CodeChallenge: React.FC = () => {
   };
 
   const handleAnswerQuestion = (selectedIndex: number) => {
-    // Prevent changing answer if already answered
     if (attemptedAnswer !== null) return;
     
     const isAnswerCorrect = selectedIndex === topic.questions[currentQuestion].correctAnswer;
@@ -54,14 +49,13 @@ const CodeChallenge: React.FC = () => {
     setAttemptedAnswer(selectedIndex);
     
     if (isAnswerCorrect && !isTopicCompleted) {
-      // Award XP for correct answer only on first attempt of the topic
       if (!answeredQuestions.has(currentQuestion)) {
         const newAnsweredQuestions = new Set(answeredQuestions);
         newAnsweredQuestions.add(currentQuestion);
         setAnsweredQuestions(newAnsweredQuestions);
         
-        // Track earned XP for the final score
-        setEarnedXP(earnedXP + 10);
+        // Award XP for correct answer on first attempt
+        setEarnedXP(prev => prev + 10);
         
         toast({
           title: "+10 XP!",
@@ -76,7 +70,6 @@ const CodeChallenge: React.FC = () => {
     if (currentQuestion < topic.questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
-      // Only award score if topic wasn't previously completed
       if (!isTopicCompleted && earnedXP > 0) {
         completeChallenge(topic.id, earnedXP);
         
@@ -93,7 +86,6 @@ const CodeChallenge: React.FC = () => {
         });
       }
       
-      // Go back to topics
       setScreen('topics');
     }
   };
