@@ -1,3 +1,4 @@
+
 import { Topic } from '../types/topics';
 
 export const pythonTopics: Topic[] = [
@@ -790,4 +791,32 @@ print(x)  # Can access global variable
       },
       {
         id: "func_q7",
-        question: "What will this code print?\ndef outer_func():\n    x = 10\n    def inner_func():\n        nonlocal x\n
+        question: "What will this code print?\ndef outer_func():\n    x = 10\n    def inner_func():\n        nonlocal x\n        x = 20\n    inner_func()\n    return x\n\nprint(outer_func())",
+        options: ["10", "20", "None", "Error"],
+        correctAnswer: 1,
+        explanation: "The 'nonlocal' keyword allows the inner function to modify the variable x in the outer function's scope, so x becomes 20."
+      },
+      {
+        id: "func_q8",
+        question: "What is the output of this code?\ndef func(x, y, z=0):\n    return x + y + z\n\nprint(func(1, 2))",
+        options: ["1", "3", "0", "Error"],
+        correctAnswer: 1,
+        explanation: "The function is called with x=1 and y=2, and z uses its default value of 0, so the result is 1 + 2 + 0 = 3."
+      },
+      {
+        id: "func_q9",
+        question: "What happens when a function doesn't have a return statement?",
+        options: ["It returns 0", "It returns None", "It causes an error", "It returns an empty string"],
+        correctAnswer: 1,
+        explanation: "If a function doesn't have a return statement or has a return statement without a value, it returns None."
+      },
+      {
+        id: "func_q10",
+        question: "What will the following code print?\ndef add(a, b=2, c=3):\n    return a + b + c\n\nprint(add(1, c=5))",
+        options: ["6", "8", "9", "Error"],
+        correctAnswer: 1,
+        explanation: "The function is called with a=1, the default b=2, and c is overridden to 5, so the result is 1 + 2 + 5 = 8."
+      }
+    ]
+  }
+];
