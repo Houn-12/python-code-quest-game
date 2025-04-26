@@ -1,14 +1,22 @@
 
-import React, { createContext, useState, useContext, ReactNode } from "react";
+import React, { createContext, useState, useContext, ReactNode, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { achievements } from '@/data/modules';
+import { pythonTopics } from '@/data/topics';
+
+// Define topic-specific achievement IDs
+const TOPIC_ACHIEVEMENTS: Record<string, string> = {};
+pythonTopics.forEach(topic => {
+  TOPIC_ACHIEVEMENTS[topic.id] = `master_${topic.id}`;
+});
 
 export interface User {
   name: string;
-  progress: Record<string, number>;  // Changed to track per-topic progress
+  progress: Record<string, number>;
   score: number;
   completedChallenges: string[];
   achievements: string[];
-  xp: number;  // Added XP tracking
+  xp: number;
 }
 
 export interface LeaderboardEntry {
@@ -32,22 +40,66 @@ interface GameContextType {
   completeChallenge: (topicId: string, score: number) => void;
   awardXP: (amount: number) => void;
   unlockAchievement: (achievementId: string) => void;
-  // Add missing properties for compatibility
   currentModule: number;
   setCurrentModule: (moduleIndex: number) => void;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
 
+// Default leaderboard data for initial state
+const defaultLeaderboard: LeaderboardEntry[] = [
+  { name: "PyMaster", score: 450, completedTopics: 9, xp: 450 },
+  { name: "CodeNinja", score: 380, completedTopics: 7, xp: 380 },
+  { name: "DataWhiz", score: 320, completedTopics: 6, xp: 320 },
+  { name: "DevGuru", score: 280, completedTopics: 5, xp: 280 },
+  { name: "AlgoAce", score: 230, completedTopics: 4, xp: 230 },
+];
+
 export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [screen, setScreen] = useState<GameContextType["screen"]>("welcome");
   const [currentTopic, setCurrentTopic] = useState("");
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
-  // Add the missing state for currentModule
+  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>(defaultLeaderboard);
   const [currentModule, setCurrentModule] = useState(0);
   const { toast } = useToast();
+
+  // Check for achievements when user data changes
+  useEffect(() => {
+    if (currentUser) {
+      // Check for topic completion achievements
+      const completedTopicsCount = currentUser.completedChallenges.length;
+      
+      if (completedTopicsCount >= 1 && !currentUser.achievements.includes('first_topic')) {
+        unlockAchievement('first_topic');
+      }
+      
+      if (completedTopicsCount >= 3 && !currentUser.achievements.includes('topic_explorer')) {
+        unlockAchievement('topic_explorer');
+      }
+      
+      if (completedTopicsCount >= 5 && !currentUser.achievements.includes('python_apprentice')) {
+        unlockAchievement('python_apprentice');
+      }
+      
+      if (completedTopicsCount >= 8 && !currentUser.achievements.includes('python_master')) {
+        unlockAchievement('python_master');
+      }
+      
+      // Check XP achievements
+      if (currentUser.xp >= 100 && !currentUser.achievements.includes('xp_100')) {
+        unlockAchievement('xp_100');
+      }
+      
+      if (currentUser.xp >= 300 && !currentUser.achievements.includes('xp_300')) {
+        unlockAchievement('xp_300');
+      }
+      
+      if (currentUser.xp >= 500 && !currentUser.achievements.includes('xp_500')) {
+        unlockAchievement('xp_500');
+      }
+    }
+  }, [currentUser?.completedChallenges.length, currentUser?.xp]);
 
   const awardXP = (amount: number) => {
     if (!currentUser) return;
@@ -66,10 +118,20 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   const addToLeaderboard = (entry: LeaderboardEntry) => {
-    const newLeaderboard = [...leaderboard, entry]
-      .sort((a, b) => b.xp - a.xp)
-      .slice(0, 10); // Keep top 10
-    setLeaderboard(newLeaderboard);
+    // Create a new leaderboard with both existing entries and the new entry
+    const newLeaderboard = [...leaderboard];
+    
+    // Update existing entry or add new one
+    const existingIndex = newLeaderboard.findIndex(item => item.name === entry.name);
+    if (existingIndex >= 0) {
+      newLeaderboard[existingIndex] = entry;
+    } else {
+      newLeaderboard.push(entry);
+    }
+    
+    // Sort by score and limit to top entries
+    const sortedLeaderboard = newLeaderboard.sort((a, b) => b.xp - a.xp);
+    setLeaderboard(sortedLeaderboard);
   };
 
   const completeChallenge = (topicId: string, score: number) => {
@@ -79,10 +141,18 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     newProgress[topicId] = Math.max(newProgress[topicId] || 0, score);
     
     const completedChallenges = [...currentUser.completedChallenges];
-    if (!completedChallenges.includes(topicId) && score === 50) { // Perfect score = 5 correct answers * 10XP
+    
+    // Only award XP and unlock achievement if not already completed
+    if (!completedChallenges.includes(topicId) && score > 0) {
       completedChallenges.push(topicId);
-      unlockAchievement(`master_${topicId}`);
-      awardXP(50); // Award XP for completing the topic
+      
+      // Unlock topic-specific achievement
+      if (TOPIC_ACHIEVEMENTS[topicId]) {
+        unlockAchievement(TOPIC_ACHIEVEMENTS[topicId]);
+      }
+      
+      // Award XP for completing the topic
+      awardXP(50);
     }
     
     const totalScore = Object.values(newProgress).reduce((sum, score) => sum + score, 0);
@@ -98,7 +168,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       name: currentUser.name,
       score: totalScore,
       completedTopics: completedChallenges.length,
-      xp: currentUser.xp || 0
+      xp: currentUser.xp
     });
   };
 
@@ -106,6 +176,9 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     if (!currentUser) return;
     
     if (!currentUser.achievements.includes(achievementId)) {
+      // Find achievement data
+      const achievementData = achievements.find(a => a.id === achievementId);
+      
       setCurrentUser({
         ...currentUser,
         achievements: [...currentUser.achievements, achievementId]
@@ -113,9 +186,14 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       
       toast({
         title: "Achievement Unlocked!",
-        description: "You've mastered this topic!",
-        className: "bg-game-primary text-white",
+        description: achievementData ? achievementData.title : "You've unlocked a new achievement!",
+        className: "bg-primary text-white",
       });
+      
+      // Award XP for getting an achievement
+      if (!achievementId.startsWith('xp_')) {  // Avoid infinite loop with XP achievements
+        awardXP(20);  // Award 20 XP per achievement
+      }
     }
   };
 
@@ -134,7 +212,6 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       completeChallenge,
       awardXP,
       unlockAchievement,
-      // Add the missing properties
       currentModule,
       setCurrentModule
     }}>

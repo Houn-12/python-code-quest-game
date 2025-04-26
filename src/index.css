@@ -5,74 +5,74 @@
 
 @layer base {
   :root {
-    --background: 250 33% 98%;
-    --foreground: 240 10% 3.9%;
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card: 222 47% 15%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 40% 98%;
 
-    --primary: 259 70% 55%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 263 70% 50%;
+    --primary-foreground: 210 40% 98%;
 
-    --secondary: 250 85% 75%;
-    --secondary-foreground: 240 5.9% 10%;
+    --secondary: 217 92% 76%;
+    --secondary-foreground: 222 47% 11%;
 
-    --muted: 240 5% 96%;
-    --muted-foreground: 240 3.8% 46.1%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
 
-    --accent: 210 100% 91%;
-    --accent-foreground: 240 5.9% 10%;
+    --accent: 217 92% 76%;
+    --accent-foreground: 222 47% 11%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 259 70% 55%;
+    --border: 217 33% 20%;
+    --input: 217 33% 20%;
+    --ring: 224.3 76.3% 48%;
 
     --radius: 0.5rem;
 
-    --sidebar-background: 240 33% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 222 47% 11%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 210 40% 98%;
+    --sidebar-primary-foreground: 222 47% 11%;
+    --sidebar-accent: 217 33% 20%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217 33% 25%;
+    --sidebar-ring: 224.3 76.3% 48%;
   }
 
-  .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+  .light {
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
 
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
 
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
 
-    --primary: 259 70% 55%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 263 70% 50%;
+    --primary-foreground: 210 40% 98%;
 
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222 47% 11%;
 
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222 47% 11%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 259 70% 55%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 263 70% 50%;
   }
 }
 
@@ -83,36 +83,58 @@
 
   body {
     @apply bg-background text-foreground font-sans;
+    background-image: radial-gradient(rgba(var(--primary), 0.15) 1px, transparent 1px);
+    background-size: 30px 30px;
   }
 }
 
 @layer components {
   /* Code highlighting styles */
   .code-keyword {
-    @apply text-code-purple font-semibold;
+    @apply text-purple-400 font-semibold;
   }
   
   .code-function {
-    @apply text-code-blue font-semibold;
+    @apply text-blue-400 font-semibold;
   }
   
   .code-string {
-    @apply text-code-green;
+    @apply text-green-400;
   }
   
   .code-number {
-    @apply text-code-orange;
+    @apply text-orange-400;
   }
   
   .code-comment {
-    @apply text-code-comment italic;
+    @apply text-muted-foreground italic;
   }
   
   .code-operator {
-    @apply text-code-red;
+    @apply text-red-400;
   }
 
   .code-editor {
-    @apply font-mono p-4 bg-game-dark text-white rounded-lg border border-game-primary;
+    @apply font-mono p-4 bg-slate-900 text-foreground rounded-lg border border-accent/30;
+  }
+
+  .game-card {
+    @apply transition-all duration-300 bg-card hover:shadow-lg hover:-translate-y-1 border border-border/50 hover:border-accent/50 shadow-lg shadow-accent/5;
+  }
+  
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
   }
 }

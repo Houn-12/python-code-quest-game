@@ -11,7 +11,7 @@ const GameContent = () => {
   const { screen } = useGame();
   
   return (
-    <div className="min-h-screen bg-game-light">
+    <div className="min-h-screen bg-background text-foreground">
       {screen === 'welcome' && <WelcomeScreen />}
       {screen === 'topics' && <TopicSelection />}
       {screen === 'learning' && <LearningModule />}

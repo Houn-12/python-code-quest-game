@@ -4,10 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGame } from '@/contexts/GameContext';
 import { pythonTopics } from '@/data/topics';
-import { Check, ArrowRight } from 'lucide-react';
+import { Check, ArrowRight, ArrowLeft } from 'lucide-react';
 
 const LearningModule: React.FC = () => {
-  const { currentTopic, setCurrentTopic, setScreen, currentUser } = useGame();
+  const { currentTopic, setScreen, currentUser } = useGame();
   const [activeTab, setActiveTab] = useState<'content' | 'examples'>('content');
   const [currentExample, setCurrentExample] = useState(0);
   
@@ -25,26 +25,6 @@ const LearningModule: React.FC = () => {
       </div>
     );
   }
-  
-  const handleNextTopic = () => {
-    const currentIndex = pythonTopics.findIndex(t => t.id === topic.id);
-    if (currentIndex < pythonTopics.length - 1) {
-      const nextTopic = pythonTopics[currentIndex + 1];
-      if (nextTopic) {
-        setCurrentTopic(nextTopic.id);
-      }
-    }
-  };
-  
-  const handlePreviousTopic = () => {
-    const currentIndex = pythonTopics.findIndex(t => t.id === topic.id);
-    if (currentIndex > 0) {
-      const prevTopic = pythonTopics[currentIndex - 1];
-      if (prevTopic) {
-        setCurrentTopic(prevTopic.id);
-      }
-    }
-  };
   
   const handleStartChallenge = () => {
     setScreen('challenge');
@@ -76,21 +56,25 @@ const LearningModule: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl animate-fade-in">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold text-game-primary">
-          Topic: {topic.title}
-        </h1>
+        <div className="flex items-center">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={() => setScreen('topics')}
+            className="mr-4"
+          >
+            <ArrowLeft className="h-4 w-4 mr-2" /> Back to Topics
+          </Button>
+          <h1 className="text-3xl font-bold text-foreground">
+            {topic.title}
+          </h1>
+        </div>
         <div className="flex space-x-2">
           <Button 
-            onClick={() => setScreen('welcome')}
+            onClick={() => setScreen('achievements')}
             variant="outline"
           >
-            Home
-          </Button>
-          <Button 
-            onClick={() => setScreen('topics')}
-            variant="outline"
-          >
-            Topics
+            Achievements
           </Button>
           <Button 
             onClick={() => setScreen('leaderboard')}
@@ -98,28 +82,22 @@ const LearningModule: React.FC = () => {
           >
             Leaderboard
           </Button>
-          <Button 
-            onClick={() => setScreen('achievements')}
-            variant="outline"
-          >
-            Achievements
-          </Button>
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+      <div className="bg-card rounded-lg shadow-md p-6 mb-6 border border-border">
         <p className="text-lg">{topic.description}</p>
       </div>
       
       <div className="flex space-x-2 mb-4">
         <Button
-          className={activeTab === 'content' ? 'bg-game-primary' : 'bg-gray-300'}
+          className={activeTab === 'content' ? 'bg-primary' : 'bg-muted hover:bg-muted/80'}
           onClick={() => setActiveTab('content')}
         >
           Content
         </Button>
         <Button
-          className={activeTab === 'examples' ? 'bg-game-primary' : 'bg-gray-300'}
+          className={activeTab === 'examples' ? 'bg-primary' : 'bg-muted hover:bg-muted/80'}
           onClick={() => setActiveTab('examples')}
         >
           Examples
@@ -127,10 +105,10 @@ const LearningModule: React.FC = () => {
       </div>
 
       {activeTab === 'content' ? (
-        <Card className="mb-8">
+        <Card className="mb-8 game-card">
           <CardContent className="p-6">
             <div 
-              className="prose max-w-none"
+              className="prose max-w-none prose-invert prose-headings:text-foreground prose-p:text-muted-foreground"
               dangerouslySetInnerHTML={{ 
                 __html: topic.content
                   .split('\n')
@@ -151,36 +129,28 @@ const LearningModule: React.FC = () => {
           </CardContent>
         </Card>
       ) : (
-        <Card className="mb-8">
-          <CardHeader>
+        <Card className="mb-8 game-card">
+          <CardHeader className="border-b border-border">
             <CardTitle>{examples[currentExample].title}</CardTitle>
           </CardHeader>
-          <CardContent>
-            <pre className="code-editor rounded mb-4 w-full overflow-x-auto">
+          <CardContent className="p-6">
+            <pre className="code-editor mb-4 w-full overflow-x-auto">
               <code dangerouslySetInnerHTML={{ 
                 __html: formatPythonCode(examples[currentExample].code) 
               }} />
             </pre>
-            <div className="bg-accent p-4 rounded-md">
+            <div className="bg-accent/10 p-4 rounded-md border border-accent/20">
               <h4 className="font-semibold mb-2">Explanation:</h4>
-              <p>{examples[currentExample].explanation}</p>
+              <p className="text-muted-foreground">{examples[currentExample].explanation}</p>
             </div>
           </CardContent>
         </Card>
       )}
 
-      <div className="flex justify-between">
-        <Button
-          onClick={handlePreviousTopic}
-          disabled={pythonTopics.findIndex(t => t.id === topic.id) === 0}
-          variant="outline"
-        >
-          Previous Topic
-        </Button>
-        
+      <div className="flex justify-end">
         <Button
           onClick={handleStartChallenge}
-          className="bg-game-primary hover:bg-game-secondary"
+          className="bg-primary hover:bg-primary/80"
         >
           {isTopicCompleted ? (
             <>
@@ -191,14 +161,6 @@ const LearningModule: React.FC = () => {
               Take the Challenge <ArrowRight className="ml-2 h-4 w-4" />
             </>
           )}
-        </Button>
-        
-        <Button
-          onClick={handleNextTopic}
-          disabled={pythonTopics.findIndex(t => t.id === topic.id) === pythonTopics.length - 1}
-          variant="outline"
-        >
-          Next Topic
         </Button>
       </div>
     </div>
