@@ -123,7 +123,7 @@ const Achievements: React.FC = () => {
             {currentUser ? currentUser.achievements.length : 0} / {allAchievements.length} unlocked
           </span>
         </div>
-        <Progress value={calculateProgress()} className="h-2 bg-secondary/20" indicatorClassName="bg-accent" />
+        <Progress value={calculateProgress()} className="h-2 bg-secondary/20" />
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
