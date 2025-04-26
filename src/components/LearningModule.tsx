@@ -9,7 +9,6 @@ import { Check, ArrowRight, ArrowLeft } from 'lucide-react';
 const LearningModule: React.FC = () => {
   const { currentTopic, setScreen, currentUser } = useGame();
   const [activeTab, setActiveTab] = useState<'content' | 'examples'>('content');
-  const [currentExample, setCurrentExample] = useState(0);
   
   // Find the topic based on currentTopic ID
   const topic = pythonTopics.find(t => t.id === currentTopic);
@@ -131,17 +130,17 @@ const LearningModule: React.FC = () => {
       ) : (
         <Card className="mb-8 game-card">
           <CardHeader className="border-b border-border">
-            <CardTitle>{examples[currentExample].title}</CardTitle>
+            <CardTitle>{examples[0].title}</CardTitle>
           </CardHeader>
           <CardContent className="p-6">
             <pre className="code-editor mb-4 w-full overflow-x-auto">
               <code dangerouslySetInnerHTML={{ 
-                __html: formatPythonCode(examples[currentExample].code) 
+                __html: formatPythonCode(examples[0].code) 
               }} />
             </pre>
             <div className="bg-accent/10 p-4 rounded-md border border-accent/20">
               <h4 className="font-semibold mb-2">Explanation:</h4>
-              <p className="text-muted-foreground">{examples[currentExample].explanation}</p>
+              <p className="text-muted-foreground">{examples[0].explanation}</p>
             </div>
           </CardContent>
         </Card>

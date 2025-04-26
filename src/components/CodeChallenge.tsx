@@ -9,12 +9,12 @@ import { useGame } from '@/contexts/GameContext';
 import { pythonTopics } from '@/data/topics';
 
 const CodeChallenge: React.FC = () => {
-  const { currentTopic, setScreen, completeChallenge, unlockAchievement, currentUser } = useGame();
-  const [output, setOutput] = useState<string>('');
+  const { currentTopic, setScreen, completeChallenge, currentUser } = useGame();
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [attemptedAnswer, setAttemptedAnswer] = useState<number | null>(null);
   const [currentQuestion, setCurrentQuestion] = useState<number>(0);
   const [answeredQuestions, setAnsweredQuestions] = useState<Set<number>>(new Set());
+  const [earnedXP, setEarnedXP] = useState<number>(0);
   const { toast } = useToast();
   
   // Find the topic based on currentTopic ID
@@ -32,9 +32,11 @@ const CodeChallenge: React.FC = () => {
     );
   }
 
+  // Check if topic is already completed
+  const isTopicCompleted = currentUser?.completedChallenges.includes(topic.id);
+
   // Reset state when changing questions  
   useEffect(() => {
-    setOutput('');
     setIsCorrect(null);
     setAttemptedAnswer(null);
   }, [currentQuestion]);
@@ -51,12 +53,15 @@ const CodeChallenge: React.FC = () => {
     setIsCorrect(isAnswerCorrect);
     setAttemptedAnswer(selectedIndex);
     
-    if (isAnswerCorrect) {
-      // Award XP for correct answer
-      if (currentUser && !answeredQuestions.has(currentQuestion)) {
+    if (isAnswerCorrect && !isTopicCompleted) {
+      // Award XP for correct answer only on first attempt of the topic
+      if (!answeredQuestions.has(currentQuestion)) {
         const newAnsweredQuestions = new Set(answeredQuestions);
         newAnsweredQuestions.add(currentQuestion);
         setAnsweredQuestions(newAnsweredQuestions);
+        
+        // Track earned XP for the final score
+        setEarnedXP(earnedXP + 10);
         
         toast({
           title: "+10 XP!",
@@ -71,17 +76,22 @@ const CodeChallenge: React.FC = () => {
     if (currentQuestion < topic.questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
-      // Calculate score based on number of correct answers
-      const score = Array.from(answeredQuestions).length * 10;
-      
-      // All questions completed for this topic
-      completeChallenge(topic.id, score);
-      
-      toast({
-        title: "Topic Completed!",
-        description: `You've finished the ${topic.title} challenge!`,
-        className: "bg-primary text-white",
-      });
+      // Only award score if topic wasn't previously completed
+      if (!isTopicCompleted && earnedXP > 0) {
+        completeChallenge(topic.id, earnedXP);
+        
+        toast({
+          title: "Topic Completed!",
+          description: `You've finished the ${topic.title} challenge!`,
+          className: "bg-primary text-white",
+        });
+      } else if (isTopicCompleted) {
+        toast({
+          title: "Review Completed",
+          description: `You've reviewed the ${topic.title} topic.`,
+          className: "bg-primary text-white", 
+        });
+      }
       
       // Go back to topics
       setScreen('topics');

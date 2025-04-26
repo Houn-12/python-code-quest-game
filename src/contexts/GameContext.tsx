@@ -105,9 +105,19 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     if (!currentUser) return;
     
     const newXP = (currentUser.xp || 0) + amount;
-    setCurrentUser({
+    const updatedUser = {
       ...currentUser,
       xp: newXP
+    };
+
+    setCurrentUser(updatedUser);
+    
+    // Make sure leaderboard is always in sync with user XP
+    addToLeaderboard({
+      name: updatedUser.name,
+      score: updatedUser.score,
+      completedTopics: updatedUser.completedChallenges.length,
+      xp: updatedUser.xp
     });
 
     toast({
@@ -153,23 +163,24 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       
       // Award XP for completing the topic
       awardXP(50);
+      
+      const totalScore = Object.values(newProgress).reduce((sum, score) => sum + score, 0);
+      
+      const updatedUser = {
+        ...currentUser,
+        progress: newProgress,
+        completedChallenges,
+        score: totalScore,
+      };
+      
+      setCurrentUser(updatedUser);
+    } else {
+      // If topic was already completed, just update progress without awarding XP
+      setCurrentUser({
+        ...currentUser,
+        progress: newProgress,
+      });
     }
-    
-    const totalScore = Object.values(newProgress).reduce((sum, score) => sum + score, 0);
-    
-    setCurrentUser({
-      ...currentUser,
-      progress: newProgress,
-      completedChallenges,
-      score: totalScore,
-    });
-    
-    addToLeaderboard({
-      name: currentUser.name,
-      score: totalScore,
-      completedTopics: completedChallenges.length,
-      xp: currentUser.xp
-    });
   };
 
   const unlockAchievement = (achievementId: string) => {
@@ -179,10 +190,12 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       // Find achievement data
       const achievementData = achievements.find(a => a.id === achievementId);
       
-      setCurrentUser({
+      const updatedUser = {
         ...currentUser,
         achievements: [...currentUser.achievements, achievementId]
-      });
+      };
+      
+      setCurrentUser(updatedUser);
       
       toast({
         title: "Achievement Unlocked!",

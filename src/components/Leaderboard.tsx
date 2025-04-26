@@ -16,6 +16,7 @@ import {
 const Leaderboard: React.FC = () => {
   const { leaderboard, setScreen, currentUser } = useGame();
   
+  // Ensure the leaderboard is sorted by XP
   const sortedLeaderboard = [...leaderboard].sort((a, b) => b.xp - a.xp);
   
   return (
